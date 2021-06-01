@@ -18,8 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chipGroup: ChipGroup
     private lateinit var radioGroupH: RadioGroup
     private lateinit var radioGroupV: RadioGroup
-    private lateinit var customFlow: CustomFlowLayout
-    private lateinit var customRadioGroupFlow: RadioGroupFlow
+    private lateinit var customRadioGroupFlow: GridRadioGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +30,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        val titles = listOf<String>("asd", "asdasdad", "as", "asss")
         for (i in 0..5) {
-            list.add(ListItem(i, false, "Title $i"))
+            list.add(ListItem(i, false, titles.shuffled().first()))
         }
     }
 
@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         chipGroup = findViewById(R.id.chipGroup)
         radioGroupH = findViewById(R.id.radioGroupH)
         radioGroupV = findViewById(R.id.radioGroupV)
-        customFlow = findViewById(R.id.customFlowLayout)
         customRadioGroupFlow = findViewById(R.id.customRadioGroupFlow)
 
         val layoutParams = ViewGroup.LayoutParams(
@@ -48,14 +47,9 @@ class MainActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        for (item in list) {
-            val rb = RadioButton(this)
-            rb.text = item.title
-            rb.id = item.id
-            rb.isChecked = item.checked
-            rb.layoutParams = layoutParams
-            customFlow.addView(rb)
-        }
+        customRadioGroupFlow.orientation = AutoAlignedGridLayout.Orientation.HORIZONTAL
+        customRadioGroupFlow.itemSpacing = 50
+        customRadioGroupFlow.lineSpacing = 50
 
         for (item in list) {
             val rb = RadioButton(this)
@@ -105,12 +99,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         customRadioGroupFlow.setOnCheckedChangeListener(object :
-            RadioGroupFlow.OnCheckedChangeListener {
-            override fun onCheckedChanged(group: RadioGroupFlow, checkedId: Int) {
+            GridRadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(group: GridRadioGroup, checkedId: Int) {
                 Log.d("___)", "CRGF : id = $checkedId")
             }
         })
-        customRadioGroupFlow.orientation = CustomFlowLayout.Orientation.VERTICAL
     }
 
     private fun printDisplaySize() {

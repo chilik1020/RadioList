@@ -9,12 +9,12 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
 
-class RadioGroupFlow @JvmOverloads constructor(
+class GridRadioGroup @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : CustomFlowLayout(context, attrs, defStyle) {
-    private val LOG_TAG = RadioGroupFlow::class.java.simpleName
+) : AutoAlignedGridLayout(context, attrs, defStyle) {
+    private val LOG_TAG = GridRadioGroup::class.java.simpleName
     private var mOrientation = 0
 
     // holds the checked id; the selection is empty by default
@@ -102,18 +102,8 @@ class RadioGroupFlow @JvmOverloads constructor(
     }
 
     private fun setCheckedId(@IdRes id: Int) {
-//        val changed = id != mCheckedId
         mCheckedId = id
         mOnCheckedChangeListener?.onCheckedChanged(this, mCheckedId)
-//        if (mOnCheckedChangeListener != null) {
-//            mOnCheckedChangeListener!!.onCheckedChanged(this, mCheckedId)
-//        }
-//        if (changed) {
-//            val afm: AutofillManager = context.getSystemService(AutofillManager::class.java)
-//            if (afm != null) {
-//                afm.notifyValueChanged(this)
-//            }
-//        }
     }
 
     private fun setCheckedStateForView(viewId: Int, checked: Boolean) {
@@ -181,7 +171,7 @@ class RadioGroupFlow @JvmOverloads constructor(
          * @param group the group in which the checked radio button has changed
          * @param checkedId the unique identifier of the newly checked radio button
          */
-        fun onCheckedChanged(group: RadioGroupFlow, @IdRes checkedId: Int)
+        fun onCheckedChanged(group: GridRadioGroup, @IdRes checkedId: Int)
     }
 
     private inner class CheckedStateTracker : CompoundButton.OnCheckedChangeListener {
@@ -213,7 +203,7 @@ class RadioGroupFlow @JvmOverloads constructor(
          * {@inheritDoc}
          */
         override fun onChildViewAdded(parent: View, child: View) {
-            if (parent === this@RadioGroupFlow && child is RadioButton) {
+            if (parent === this@GridRadioGroup && child is RadioButton) {
                 var id = child.getId()
                 // generates an id if it's missing
                 if (id == NO_ID) {
@@ -230,7 +220,7 @@ class RadioGroupFlow @JvmOverloads constructor(
          * {@inheritDoc}
          */
         override fun onChildViewRemoved(parent: View, child: View) {
-            if (parent === this@RadioGroupFlow && child is RadioButton) {
+            if (parent === this@GridRadioGroup && child is RadioButton) {
                 child.setOnCheckedChangeListener(null)
             }
             mOnHierarchyChangeListener?.onChildViewRemoved(parent, child)

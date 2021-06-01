@@ -17,13 +17,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.chilik1020.radiolist.CustomFlowLayout
-        android:id="@+id/customFlowLayout"
-        android:padding="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <com.chilik1020.radiolist.RadioGroupFlow
+    <com.chilik1020.radiolist.GridRadioGroup
         android:id="@+id/customRadioGroupFlow"
         android:padding="16dp"
         android:layout_width="match_parent"
